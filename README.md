@@ -10,7 +10,8 @@ library to automatically renew its JWT token if it expires. This automated renew
 is the focus of the demo.
 
 ## Install
-- Clone this repository: `git clone `
+- Clone this repository: `git clone https://github.com/Permissionless-Software-Foundation/jwt-bch-demo`
+- Enter the new directory: `cd jwt-bch-demo`
 - Install dependencies: `npm install`
 - Start the demo: `npm start`
 
