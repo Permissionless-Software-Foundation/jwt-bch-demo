@@ -1,10 +1,18 @@
 /*
   Global configuration options.
+  A convenient place to set frequently-used values.
+
+  This file makes use of the JavaScript shorthand:
+  <variable>: <statement> ? <value if true> : <value if false>
+
+  The shorthand allows default values to be overwriten by POSIX environment
+  variables. These are used in all major operating systems.
 */
 
 const config = {
-  // SERVER: 'https://auth.fullstack.cash'
-  SERVER: 'http://localhost:5001'
+  AUTHSERVER: process.env.AUTHSERVER ? process.env.AUTHSERVER : 'https://auth.fullstack.cash',
+  APISERVER: process.env.APISERVER ? process.env.APISERVER : 'https://api.fullstack.cash/v3/',
+  BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : ''
 }
 
 module.exports = config

@@ -4,11 +4,6 @@
 
 const assert = require('chai').assert
 
-// const config = {
-//   login: 'test@test.com',
-//   password: 'test'
-// }
-
 describe('#test', () => {
   describe('#register', () => {
     it('test', async () => {

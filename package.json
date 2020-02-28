@@ -15,6 +15,7 @@
   "license": "MIT",
   "repository": "Permissionless-Software-Foundation/jwt-bch-demo",
   "dependencies": {
+    "@chris.troutner/bch-js": "^2.3.5",
     "axios": "^0.19.2"
   },
   "devDependencies": {
