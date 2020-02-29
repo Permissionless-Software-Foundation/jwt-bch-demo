@@ -12,12 +12,19 @@ const config = require('./config')
 const BCHJS = require('@chris.troutner/bch-js')
 const bchjs = new BCHJS({ restURL: config.APISERVER, apiToken: config.BCHJSTOKEN })
 
+// Library for tracking the state of this app.
+const State = require('./src/state')
+const state = new State()
+
 // The BCH address this app is monitoring.
 const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 
 // Define the main program.
 async function mainApp () {
   try {
+    const stateData = await state.readState()
+    console.log(`stateData: ${JSON.stringify(stateData, null, 2)}`)
+
     // Get the balance for the address from the indexer.
     const balance = await bchjs.Blockbook.balance(address)
     // console.log(`balance: ${JSON.stringify(balance, null, 2)}`)
