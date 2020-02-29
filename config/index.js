@@ -12,7 +12,11 @@
 const config = {
   AUTHSERVER: process.env.AUTHSERVER ? process.env.AUTHSERVER : 'https://auth.fullstack.cash',
   APISERVER: process.env.APISERVER ? process.env.APISERVER : 'https://api.fullstack.cash/v3/',
-  BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : ''
+  BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : '',
+  stateFileName: 'state.json'
 }
+
+config.stateFilePath = `${__dirname}/${config.stateFileName}`
+// console.log(`stateFilePath: ${config.stateFilePath}`)
 
 module.exports = config
