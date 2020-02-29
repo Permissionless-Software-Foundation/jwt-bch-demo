@@ -16,6 +16,9 @@ const bchjs = new BCHJS({ restURL: config.APISERVER, apiToken: config.BCHJSTOKEN
 const State = require('./src/state')
 const state = new State()
 
+const FullStack = require('./src/fullstack')
+const fullstack = new FullStack()
+
 // The BCH address this app is monitoring.
 const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 
@@ -23,7 +26,10 @@ const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 async function mainApp () {
   try {
     const stateData = await state.readState()
-    console.log(`stateData: ${JSON.stringify(stateData, null, 2)}`)
+    // console.log(`stateData: ${JSON.stringify(stateData, null, 2)}`)
+
+    const apiToken = await fullstack.getApiToken(stateData)
+    console.log(`apiToken: ${JSON.stringify(apiToken, null, 2)}`)
 
     // Get the balance for the address from the indexer.
     const balance = await bchjs.Blockbook.balance(address)
