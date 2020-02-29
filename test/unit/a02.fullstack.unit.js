@@ -1,5 +1,5 @@
 /*
-  Mocha unit tests for the jwt-bch-api.js library.
+  Mocha unit tests for the state library.
 */
 
 const assert = require('chai').assert

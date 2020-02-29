@@ -29,23 +29,24 @@ class State {
     // Move global variables inside the instance.
     _this.config = config
     _this.currentState = currentState
+    _this.fs = fs
   }
 
   // Read and parse the state JSON file. Create the state.json file if it does not exit.
   readState () {
     return new Promise(function (resolve, reject) {
       try {
-        fs.readFile(_this.config.stateFileName, async (err, data) => {
+        _this.fs.readFile(_this.config.stateFileName, async (err, data) => {
           if (err) {
             if (err.code === 'ENOENT') {
               // console.log(`${_this.config.stateFileName} not found!`)
               console.log('state.json not found, creating it.')
               await _this.writeState(_this.currentState)
               const data = _this.readState()
-              console.log(`data: ${JSON.stringify(data, null, 2)}`)
+              // console.log(`data: ${JSON.stringify(data, null, 2)}`)
               return resolve(data)
             } else {
-              console.log(`err: ${JSON.stringify(err, null, 2)}`)
+              console.error(`Error trying to read state: ${JSON.stringify(err, null, 2)}`)
             }
 
             return reject(err)
@@ -72,19 +73,47 @@ class State {
 
         const fileStr = JSON.stringify(_this.currentState, null, 2)
 
-        fs.writeFile(_this.config.stateFileName, fileStr, function (err) {
+        _this.fs.writeFile(_this.config.stateFileName, fileStr, function (err) {
           if (err) {
             console.error('Error while trying to write state.json file.')
             return reject(err)
           } else {
             // console.log(`${fileName} written successfully!`)
-            return resolve()
+            return resolve(true)
           }
         })
       } catch (err) {
         console.error(
-          'Error trying to write out state.json file in state.js/writeState().',
-          err
+          'Error trying to write out state.json file in state.js/writeState().'
+        )
+        return reject(err)
+      }
+    })
+  }
+
+  // Deletes the state file, if it exists.
+  // This wipes the apps state. Useful for unit tests.
+  // Returns true if successful, or throws an error.
+  deleteState () {
+    return new Promise(function (resolve, reject) {
+      try {
+        _this.fs.unlink(_this.config.stateFileName, function (err) {
+          if (err) {
+            // If the file doesn't exist, count that as a success.
+            if (err.code === 'ENOENT') {
+              // console.log(`err: ${JSON.stringify(err, null, 2)}`)
+              return resolve(true)
+            } else {
+              console.error('Error while trying to delete state.json file.')
+              return reject(err)
+            }
+          }
+
+          return resolve(true)
+        })
+      } catch (err) {
+        console.error(
+          'Error trying to delete state.json file in state.js/deleteState().'
         )
         return reject(err)
       }
