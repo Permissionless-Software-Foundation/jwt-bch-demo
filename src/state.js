@@ -26,6 +26,7 @@ class State {
   constructor () {
     _this = this
 
+    // Move global variables inside the instance.
     _this.config = config
     _this.currentState = currentState
   }
