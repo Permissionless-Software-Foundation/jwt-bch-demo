@@ -24,9 +24,9 @@ class FullStack {
   }
 
   // Get an API JWT token for use with bch-js.
-  // If the there is no JWT token saved to the state, a new one will be obtained.
-  // If there is a JWT token saved to the state, it will be validated.
-  // If the saved JWT token is invalid, a new one will attempt to be obtained.
+  // If the there *is no JWT token* saved to the state, a new one will be obtained.
+  // If there *is* a JWT token saved to the state, it will be validated.
+  // If the saved JWT token is *invalid*, a new one will attempt to be obtained.
   async getApiToken (stateData) {
     try {
       // console.log(`stateData: ${JSON.stringify(stateData, null, 2)}`)

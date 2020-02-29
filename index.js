@@ -1,6 +1,9 @@
 /*
   A library for interacting with fullstack.cash and JWT API token handling
-  for bch-api.
+  for bch-js.
+
+  This app can be used as a boilerplate for starting new apps that interact
+  with the BCH blockchain.
 */
 
 'use strict'
@@ -19,6 +22,7 @@ let bchjs = new BCHJS({
 const State = require('./src/state')
 const state = new State()
 
+// Library for interacting with auth.fullstack.cash
 const FullStack = require('./src/fullstack')
 const fullstack = new FullStack()
 

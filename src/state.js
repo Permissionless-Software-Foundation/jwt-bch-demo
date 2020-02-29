@@ -13,11 +13,10 @@ const fs = require('fs')
 
 const config = require('../config')
 
+// Create the state object with default values.
 const currentState = {
-  login: process.env.FULLSTACKLOGIN
-    ? process.env.FULLSTACKLOGIN
-    : 'demo@demo.com',
-  password: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
+  login: config.FULLSTACKLOGIN,
+  password: config.FULLSTACKPASS,
   apiToken: config.BCHJSTOKEN
 }
 
