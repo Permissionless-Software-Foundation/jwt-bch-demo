@@ -14,9 +14,11 @@ const fs = require('fs')
 const config = require('../config')
 
 const currentState = {
-  login: process.env.FULLSTACKLOGIN ? process.env.FULLSTACKLOGIN : 'demo@demo.com',
+  login: process.env.FULLSTACKLOGIN
+    ? process.env.FULLSTACKLOGIN
+    : 'demo@demo.com',
   password: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
-  jwtToken: config.BCHJSTOKEN
+  apiToken: config.BCHJSTOKEN
 }
 
 let _this
@@ -38,8 +40,10 @@ class State {
             if (err.code === 'ENOENT') {
               // console.log(`${_this.config.stateFileName} not found!`)
               console.log('state.json not found, creating it.')
-              await _this.writeState()
-              return _this.readState()
+              await _this.writeState(_this.currentState)
+              const data = _this.readState()
+              console.log(`data: ${JSON.stringify(data, null, 2)}`)
+              return resolve(data)
             } else {
               console.log(`err: ${JSON.stringify(err, null, 2)}`)
             }
@@ -52,17 +56,21 @@ class State {
           return resolve(obj)
         })
       } catch (err) {
-        console.error('Error trying to read JSON state file in state.js/readState().')
+        console.error(
+          'Error trying to read JSON state file in state.js/readState().'
+        )
         return reject(err)
       }
     })
   }
 
   // Write state to the state.json file.
-  writeState () {
+  writeState (stateData) {
     return new Promise(function (resolve, reject) {
       try {
-        const fileStr = JSON.stringify(currentState, null, 2)
+        _this.currentState = stateData
+
+        const fileStr = JSON.stringify(_this.currentState, null, 2)
 
         fs.writeFile(_this.config.stateFileName, fileStr, function (err) {
           if (err) {
@@ -74,7 +82,10 @@ class State {
           }
         })
       } catch (err) {
-        console.error('Error trying to write out state.json file in state.js/writeState().', err)
+        console.error(
+          'Error trying to write out state.json file in state.js/writeState().',
+          err
+        )
         return reject(err)
       }
     })
