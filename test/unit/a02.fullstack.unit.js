@@ -75,7 +75,7 @@ describe('#fullstack.js', () => {
   })
 
   describe('#getApiToken', () => {
-    it('should get an API Token', async () => {
+    it('should get a free API Token', async () => {
       // Use mocks to prevent live network calls.
       sandbox.stub(uut, 'reinitialize').returns()
       sandbox.stub(uut.jwtLib, 'register').resolves(true)
