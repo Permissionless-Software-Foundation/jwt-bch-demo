@@ -15,7 +15,8 @@ const config = {
   BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : '',
   stateFileName: 'state.json',
   FULLSTACKLOGIN: process.env.FULLSTACKLOGIN ? process.env.FULLSTACKLOGIN : 'demo@demo.com',
-  FULLSTACKPASS: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo'
+  FULLSTACKPASS: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
+  apiLevel: 10 // Tier of access: 10 = free, 20 = full node, 30 = indexer, 40 = SLP
 }
 
 config.stateFilePath = `${__dirname}/${config.stateFileName}`

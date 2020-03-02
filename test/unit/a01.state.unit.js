@@ -14,7 +14,7 @@ const sinon = require('sinon')
 
 const State = require('../../src/state')
 
-describe('#state', () => {
+describe('#state.js', () => {
   let sandbox
   let uut
 
@@ -24,6 +24,11 @@ describe('#state', () => {
   })
 
   afterEach(() => sandbox.restore())
+
+  after(async () => {
+    // Delete the state after tests.
+    uut.deleteState()
+  })
 
   describe('#constructor', () => {
     it('should create a new instance', () => {

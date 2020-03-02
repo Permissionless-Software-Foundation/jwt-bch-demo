@@ -20,6 +20,7 @@ class FullStack {
     // Move global variables inside the instance.
     _this.config = config
     _this.state = state
+    _this.jwtLib = new JwtLib(state.currentState)
   }
 
   // Get an API JWT token for use with bch-js.
@@ -31,11 +32,19 @@ class FullStack {
       // console.log(`stateData: ${JSON.stringify(stateData, null, 2)}`)
 
       // Instantiate the jwt-bch-lib library.
-      _this.jwtLib = new JwtLib(stateData)
+      _this.reinitialize(stateData)
 
       // Login to auth.fullstack.cash.
       await _this.jwtLib.register()
-      console.log(`jwt-bch-lib user data: ${JSON.stringify(_this.jwtLib.userData, null, 2)}`)
+
+      // Display the details retrieved from the server.
+      console.log(
+        `jwt-bch-lib user data: ${JSON.stringify(
+          _this.jwtLib.userData,
+          null,
+          2
+        )}`
+      )
       console.log(' ')
 
       // Pull out the current API JWT token.
@@ -44,7 +53,7 @@ class FullStack {
 
       // If there is no token, attempt to get a new free-tier token.
       if (!apiToken) {
-        apiToken = await _this.requestNewToken(10)
+        apiToken = await _this.requestNewToken(_this.config.apiLevel)
         return apiToken
       }
 
@@ -54,7 +63,7 @@ class FullStack {
       // If the current token is not valid, attempt to request a new one.
       if (!isValid) {
         console.log('Existing API token is not valid. Obtaining a new one.')
-        await _this.requestNewToken(10)
+        await _this.requestNewToken(_this.config.apiLevel)
       } else {
         console.log('Current API token is valid.')
       }
@@ -66,6 +75,11 @@ class FullStack {
       console.error('Error in fullstack.js/getApiToken()')
       throw err
     }
+  }
+
+  // Reinitializes the local instance of the jwt-bch-lib.
+  reinitialize (stateData) {
+    _this.jwtLib = new JwtLib(stateData)
   }
 
   // Update the credit for this account, then request a new API token at the

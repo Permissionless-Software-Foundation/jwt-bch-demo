@@ -46,7 +46,8 @@ class State {
               // console.log(`data: ${JSON.stringify(data, null, 2)}`)
               return resolve(data)
             } else {
-              console.error(`Error trying to read state: ${JSON.stringify(err, null, 2)}`)
+              // console.error(`Error trying to read state: ${JSON.stringify(err, null, 2)}`)
+              console.error('Error trying to read state.')
             }
 
             return reject(err)
