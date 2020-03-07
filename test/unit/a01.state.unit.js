@@ -160,7 +160,6 @@ describe('#state.js', () => {
       // Test the default values are correct.
       assert.equal(result.login, 'demo@demo.com')
       assert.equal(result.password, 'demo')
-      assert.equal(result.apiToken, '')
     })
 
     it('should read existing state.json file', async () => {

@@ -38,7 +38,7 @@ async function startup () {
     console.log(`The apps current state: ${JSON.stringify(stateData, null, 2)}`)
     console.log(' ')
 
-    const apiToken = await fullstack.getApiToken(stateData)
+    const apiToken = await fullstack.getApiToken(stateData, true)
     // console.log(`apiToken: ${JSON.stringify(apiToken, null, 2)}`)
 
     // Save the state.

@@ -89,10 +89,72 @@ describe('#fullstack.js', () => {
         apiToken: ''
       }
 
+      const result = await uut.getApiToken(testState, true)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isString(result)
+    })
+
+    it('should get a new token if user has not been assigned one', async () => {
+      // Use mocks to prevent live network calls.
+      sandbox.stub(uut, 'reinitialize').returns()
+      sandbox.stub(uut.jwtLib, 'register').resolves(true)
+      sandbox.stub(uut.jwtLib, 'validateApiToken').resolves(true)
+
+      uut.jwtLib.userData = mockData.mockUserData
+
+      // Force empty token.
+      uut.jwtLib.userData.apiToken = ''
+
+      const testState = {
+        login: 'demo@demo.com',
+        password: 'demo',
+        apiToken: ''
+      }
+
       const result = await uut.getApiToken(testState)
       // console.log(`result: ${JSON.stringify(result, null, 2)}`)
 
       assert.isString(result)
+    })
+
+    it('should get a new token if current one is invalid', async () => {
+      // Use mocks to prevent live network calls.
+      sandbox.stub(uut, 'reinitialize').returns()
+      sandbox.stub(uut.jwtLib, 'register').resolves(true)
+      sandbox.stub(uut.jwtLib, 'validateApiToken').resolves(false)
+      sandbox.stub(uut, 'requestNewToken').resolves(mockData.mockUserData.apiToken)
+
+      uut.jwtLib.userData = mockData.mockUserData
+
+      const testState = {
+        login: 'demo@demo.com',
+        password: 'demo',
+        apiToken: ''
+      }
+
+      const result = await uut.getApiToken(testState)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isString(result)
+    })
+
+    it('should catch and throw an error', async () => {
+      try {
+        sandbox.stub(uut, 'reinitialize').throws(new Error('test error'))
+
+        const testState = {
+          login: 'demo@demo.com',
+          password: 'demo',
+          apiToken: ''
+        }
+
+        await uut.getApiToken(testState)
+
+        assert.equal(true, false, 'Unexpected result!')
+      } catch (err) {
+        assert.equal(err.message, 'test error')
+      }
     })
   })
 })
