@@ -4,10 +4,28 @@
 
 const assert = require('chai').assert
 
-describe('#test', () => {
-  describe('#register', () => {
-    it('test', async () => {
-      assert.equal(true, true)
+const FullStack = require('../../src/fullstack')
+
+describe('#fullstack', () => {
+  let uut
+
+  beforeEach(() => {
+    uut = new FullStack()
+  })
+
+  describe('#getApiToken', () => {
+    it('should get a free API Token', async () => {
+      const testState = {
+        login: 'demo@demo.com',
+        password: 'demo',
+        apiToken: ''
+      }
+
+      const result = await uut.getApiToken(testState, true)
+      // console.log(`result: ${JSON.stringify(result, null, 2)}`)
+
+      assert.isString(result)
+      assert.include(result, 'eyJh')
     })
   })
 })

@@ -31,13 +31,16 @@ let stateData
 // The BCH address this app is monitoring.
 const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 
-// This is a one-time function used to initalize the app at startup.
+// This is a one-time function used to initalize the app at startup. It registers
+// with the auth.fullstack.cash server and either gets a new API JWT token or
+// validates the API JWT token is already has, depending on the state of the app.
 async function startup () {
   try {
     stateData = await state.readState()
     console.log(`The apps current state: ${JSON.stringify(stateData, null, 2)}`)
     console.log(' ')
 
+    // Ensure the app has a valid API JWT token.
     const apiToken = await fullstack.getApiToken(stateData, true)
     // console.log(`apiToken: ${JSON.stringify(apiToken, null, 2)}`)
 
