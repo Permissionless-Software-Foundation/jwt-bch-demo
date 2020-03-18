@@ -40,13 +40,19 @@ async function startup () {
     console.log(`The apps current state: ${JSON.stringify(stateData, null, 2)}`)
     console.log(' ')
 
-    // Ensure the app has a valid API JWT token.
-    const apiToken = await fullstack.getApiToken(stateData, true)
-    // console.log(`apiToken: ${JSON.stringify(apiToken, null, 2)}`)
+    let apiToken = ''
 
-    // Save the state.
-    stateData.apiToken = apiToken
-    await state.writeState(stateData)
+    // Ensure the app has a valid API JWT token.
+    try {
+      apiToken = await fullstack.getApiToken(stateData, true)
+      // console.log(`apiToken: ${JSON.stringify(apiToken, null, 2)}`)
+
+      // Save the state.
+      stateData.apiToken = apiToken
+      await state.writeState(stateData)
+    } catch (err) {
+      console.log('Could not log in to get JWT token. Skipping.')
+    }
 
     // Instantiate bch-js with the API token.
     bchjs = new BCHJS({ restURL: config.APISERVER, apiToken: apiToken })
@@ -59,7 +65,7 @@ async function startup () {
       } catch (err) {
         console.log('Error: ', err)
       }
-    }, 10000) // 10 seconds
+    }, 3000) // 3 seconds
 
     // Also check the balance immediately.
     checkBalance()
@@ -88,8 +94,7 @@ async function checkBalance () {
     console.log(`Balance: ${realBalance} satoshis at ${now}`)
     console.log(' ')
   } catch (err) {
-    console.error('Error in checkBalance()')
-    throw err
+    console.error('Error in checkBalance(): ', err)
   }
 }
 
