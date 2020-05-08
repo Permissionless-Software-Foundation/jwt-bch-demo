@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "lint": "standard --env mocha --fix",
-    "test": "npm run lint && nyc mocha --timeout 15000 test/unit/",
+    "test": "npm run lint && echo no tests for this demo",
     "test:integration": "npm run lint && mocha --timeout 25000 test/integration/",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coverage:report": "nyc --reporter=html mocha --timeout 15000 test/unit/"
@@ -15,23 +15,18 @@
   "license": "MIT",
   "repository": "Permissionless-Software-Foundation/jwt-bch-demo",
   "dependencies": {
-    "@chris.troutner/bch-js": "^2.3.5",
+    "@chris.troutner/bch-js": "^2.3.16",
     "axios": "^0.19.2",
-    "jwt-bch-lib": "^1.1.4"
+    "jwt-bch-lib": "^1.1.6"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "coveralls": "^3.0.9",
     "eslint": "5.16.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.0.1",
-    "nyc": "^15.0.0",
     "semantic-release": "^17.0.2",
-    "sinon": "^8.1.1",
     "standard": "^14.3.1"
   },
   "release": {
