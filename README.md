@@ -6,8 +6,7 @@ This demo queries the BCH balance of a single address every 10 seconds. It uses
 the free-tier of [Fullstack.cash](https://fullstack.cash) to access the Bitcoin
 Cash blockchain. It uses
 the [jwt-bch-lib](https://github.com/Permissionless-Software-Foundation/jwt-bch-lib) npm
-library to automatically renew its JWT token if it expires. This automated renewal
-is the focus of the demo.
+library to automatically retrieve its JWT token when the app starts.
 
 ## Install
 - Clone this repository: `git clone https://github.com/Permissionless-Software-Foundation/jwt-bch-demo`
