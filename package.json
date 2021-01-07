@@ -16,7 +16,7 @@
   "repository": "Permissionless-Software-Foundation/jwt-bch-demo",
   "dependencies": {
     "@chris.troutner/bch-js": "^2.3.16",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "jwt-bch-lib": "^1.1.6"
   },
   "devDependencies": {
