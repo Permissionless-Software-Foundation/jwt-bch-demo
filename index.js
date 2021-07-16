@@ -76,13 +76,17 @@ async function getJWT () {
     // valid (probably expired).
     if (!isValid.isValid) {
       apiToken = await jwtLib.getApiToken(jwtLib.userData.apiLevel)
-      console.log(`The JWT token was not valid. Retrieved new JWT token: ${apiToken}\n`)
+      console.log(
+        `The JWT token was not valid. Retrieved new JWT token: ${apiToken}\n`
+      )
     } else {
       console.log('JWT token is valid.\n')
     }
     return apiToken
   } catch (err) {
-    console.error(`Error trying to log into ${config.AUTHSERVER} and retrieve JWT token.`)
+    console.error(
+      `Error trying to log into ${config.AUTHSERVER} and retrieve JWT token.`
+    )
     throw err
   }
 }
@@ -98,8 +102,7 @@ async function checkBalance () {
     // console.log(`balanceResult: ${JSON.stringify(balanceResult, null, 2)}`)
     const balance = balanceResult.balance
     // Calculate the real balance.
-    const realBalance =
-      Number(balance.confirmed) + Number(balance.unconfirmed)
+    const realBalance = Number(balance.confirmed) + Number(balance.unconfirmed)
 
     // Generate a timestamp.
     let now = new Date()
@@ -115,3 +118,5 @@ async function checkBalance () {
 
 // Execut the main app by running the startup function.
 startup()
+
+module.exports = { startup, getJWT, checkBalance }
