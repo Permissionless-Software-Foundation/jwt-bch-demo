@@ -10,10 +10,16 @@
 */
 
 const config = {
-  AUTHSERVER: process.env.AUTHSERVER ? process.env.AUTHSERVER : 'https://auth.fullstack.cash',
-  APISERVER: process.env.APISERVER ? process.env.APISERVER : 'https://api.fullstack.cash/v4/',
+  AUTHSERVER: process.env.AUTHSERVER
+    ? process.env.AUTHSERVER
+    : 'https://auth.fullstack.cash',
+  APISERVER: process.env.APISERVER
+    ? process.env.APISERVER
+    : 'https://api.fullstack.cash/v4/',
   BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : '',
-  FULLSTACKLOGIN: process.env.FULLSTACKLOGIN ? process.env.FULLSTACKLOGIN : 'demo@demo.com',
+  FULLSTACKLOGIN: process.env.FULLSTACKLOGIN
+    ? process.env.FULLSTACKLOGIN
+    : 'demo@demo.com',
   FULLSTACKPASS: process.env.FULLSTACKPASS ? process.env.FULLSTACKPASS : 'demo',
   apiLevel: 10 // Tier of access: 10 = free, 20 = full node, 30 = indexer, 40 = SLP
 }

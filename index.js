@@ -11,18 +11,17 @@
 // Load the configuration settings.
 const config = require('./config')
 
-// Instantiate bch-js SDK for working with Bitcoin Cash.
-const BCHJS = require('@psf/bch-js')
-let bchjs = new BCHJS()
-
-// Instantiate the JWT handling library for FullStack.cash.
-const JwtLib = require('jwt-bch-lib')
-const jwtLib = new JwtLib({
-  // Overwrite default values with the values in the config file.
+// Load the utility library.
+const FullStackJWT = require('./lib/fullstack-jwt')
+const fullStackJwt = new FullStackJWT({
   server: config.AUTHSERVER,
   login: config.FULLSTACKLOGIN,
   password: config.FULLSTACKPASS
 })
+
+// Instantiate bch-js SDK for working with Bitcoin Cash.
+const BCHJS = require('@psf/bch-js')
+let bchjs = new BCHJS()
 
 // The BCH address this app is monitoring.
 const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
@@ -32,7 +31,7 @@ const address = 'bitcoincash:qr8wlllpll7cgjtav9qt7zuqtj9ldw49jc8evqxf5x'
 // with the auth.fullstack.cash server and retrieves a valid API JWT token.
 async function startup () {
   try {
-    const apiToken = await getJWT()
+    const apiToken = await fullStackJwt.getJWT()
 
     // Re-instantiate bch-js with the API token.
     bchjs = new BCHJS({ restURL: config.APISERVER, apiToken: apiToken })
@@ -55,43 +54,10 @@ async function startup () {
     throw err
   }
 }
-// Get's a JWT token from FullStack.cash.
-async function getJWT () {
-  try {
-    // This variable will hold the JWT token.
-    let apiToken
-    // Log into the auth server.
-    await jwtLib.register()
-
-    apiToken = jwtLib.userData.apiToken
-    if (!apiToken) {
-      throw new Error('This account does not have a JWT')
-    }
-    console.log(`Retrieved JWT token: ${apiToken}\n`)
-
-    // Ensure the JWT token is valid to use.
-    const isValid = await jwtLib.validateApiToken()
-
-    // Get a new token with the same API level, if the existing token is not
-    // valid (probably expired).
-    if (!isValid.isValid) {
-      apiToken = await jwtLib.getApiToken(jwtLib.userData.apiLevel)
-      console.log(
-        `The JWT token was not valid. Retrieved new JWT token: ${apiToken}\n`
-      )
-    } else {
-      console.log('JWT token is valid.\n')
-    }
-    return apiToken
-  } catch (err) {
-    console.error(
-      `Error trying to log into ${config.AUTHSERVER} and retrieve JWT token.`
-    )
-    throw err
-  }
-}
 
 // Check the balance of this apps BCH address.
+// This is an example of some blockchain-focused business logic used in your
+// own app.
 async function checkBalance () {
   try {
     // Get the balance for the address from the indexer.
@@ -116,7 +82,5 @@ async function checkBalance () {
   }
 }
 
-// Execut the main app by running the startup function.
+// Execute the main app by running the startup function.
 startup()
-
-module.exports = { startup, getJWT, checkBalance }
