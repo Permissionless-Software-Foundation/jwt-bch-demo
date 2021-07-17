@@ -15,7 +15,7 @@ const config = {
     : 'https://auth.fullstack.cash',
   APISERVER: process.env.APISERVER
     ? process.env.APISERVER
-    : 'https://api.fullstack.cash/v4/',
+    : 'https://api.fullstack.cash/v5/',
   BCHJSTOKEN: process.env.BCHJSTOKEN ? process.env.BCHJSTOKEN : '',
   FULLSTACKLOGIN: process.env.FULLSTACKLOGIN
     ? process.env.FULLSTACKLOGIN
